@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore all environment-specific Spring Boot configs
+application-*.properties
+application-*.yaml
+application-*.yml
+
+# Keep example config tracked
+!application-example.properties
+!application-example.yaml
+!application-example.yml
