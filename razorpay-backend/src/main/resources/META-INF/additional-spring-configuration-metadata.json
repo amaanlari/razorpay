@@ -1,0 +1,20 @@
+{
+    "properties": 
+    [
+        {
+            "name": "database.password",
+            "type": "java.lang.String",
+            "description": "Database password for the application"
+        },
+        {
+            "name": "database.username",
+            "type": "java.lang.String",
+            "description": "Database username for the application"
+        },
+        {
+            "name": "database.url",
+            "type": "java.lang.String",
+            "description": "Database URL for the application"
+        }
+    ]
+}
