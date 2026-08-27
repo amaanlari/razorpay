@@ -13,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -25,7 +26,7 @@ public class DlqEvent {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @Column(nullable = false)
+    @JoinColumn(name = "webhook_event_id", nullable = false)
     private WebhookEvent webhookEventId;
 
     @Column(nullable = false)
