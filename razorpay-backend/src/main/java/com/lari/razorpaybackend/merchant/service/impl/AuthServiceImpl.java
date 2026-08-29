@@ -4,8 +4,12 @@ import com.lari.razorpaybackend.merchant.repository.MerchantRepository;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import com.lari.razorpaybackend.common.constant.ResourceName;
 import com.lari.razorpaybackend.common.enums.MerchantStatus;
 import com.lari.razorpaybackend.common.enums.UserRole;
+import com.lari.razorpaybackend.common.exception.DuplicateResourceException;
+import com.lari.razorpaybackend.common.exception.ResourceNotFoundException;
+import com.lari.razorpaybackend.common.exception.handler.ErrorCode;
 import com.lari.razorpaybackend.merchant.dto.MerchantResponse;
 import com.lari.razorpaybackend.merchant.dto.MerchantSignupRequest;
 import com.lari.razorpaybackend.merchant.entity.AppUser;
@@ -27,7 +31,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public @Nullable MerchantResponse signup(MerchantSignupRequest request) {
         if (merchantRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("Merchant with email already exists: " + request.email());
+            // throw new DuplicateResourceException(ErrorCode.DUPLICATE_MERCHANT_EMAIL);
+            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND, ResourceName.MERCHANT, "email", request.email());
         }
 
         Merchant merchant = Merchant.builder()
