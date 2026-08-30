@@ -27,6 +27,6 @@ public class ApiKeyController {
         @Valid @RequestBody CreateApiKeyRequest request) {
         
             return ResponseEntity.status(HttpStatus.CREATED)
-            .body(apiKeyService.create(request))
+            .body(apiKeyService.create(merchantId, request));
     }
 }
