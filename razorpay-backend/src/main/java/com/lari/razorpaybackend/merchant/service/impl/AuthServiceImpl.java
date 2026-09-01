@@ -1,14 +1,11 @@
 package com.lari.razorpaybackend.merchant.service.impl;
 
+import com.lari.razorpaybackend.common.exception.DuplicateResourceException;
 import com.lari.razorpaybackend.merchant.repository.MerchantRepository;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
-import com.lari.razorpaybackend.common.constant.ResourceName;
 import com.lari.razorpaybackend.common.enums.MerchantStatus;
 import com.lari.razorpaybackend.common.enums.UserRole;
-import com.lari.razorpaybackend.common.exception.DuplicateResourceException;
-import com.lari.razorpaybackend.common.exception.ResourceNotFoundException;
 import com.lari.razorpaybackend.common.exception.handler.ErrorCode;
 import com.lari.razorpaybackend.merchant.dto.MerchantResponse;
 import com.lari.razorpaybackend.merchant.dto.MerchantSignupRequest;
@@ -19,6 +16,7 @@ import com.lari.razorpaybackend.merchant.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +27,10 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserRepository appUserRepository;
 
     @Override
-    public @Nullable MerchantResponse signup(MerchantSignupRequest request) {
+    @Transactional
+    public MerchantResponse signup(MerchantSignupRequest request) {
         if (merchantRepository.existsByEmail(request.email())) {
-            // throw new DuplicateResourceException(ErrorCode.DUPLICATE_MERCHANT_EMAIL);
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND, ResourceName.MERCHANT, "email", request.email());
+             throw new DuplicateResourceException(ErrorCode.DUPLICATE_MERCHANT_EMAIL);
         }
 
         Merchant merchant = Merchant.builder()
