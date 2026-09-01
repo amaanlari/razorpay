@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -22,6 +23,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "order_record")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OrderRecord {
 
     @Id
@@ -32,6 +38,9 @@ public class OrderRecord {
     @Column(name = "merchant_id", nullable = false)
     private UUID merchantId;
 
+    @Column
+    private String receipt;
+
     @Embedded
     private Money amount;
 
@@ -40,7 +49,8 @@ public class OrderRecord {
     private OrderStatus status = OrderStatus.CREATED;
 
     @Column(nullable = false)
-    private Integer attempts;
+    @Builder.Default
+    private Integer attempts = 0;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")

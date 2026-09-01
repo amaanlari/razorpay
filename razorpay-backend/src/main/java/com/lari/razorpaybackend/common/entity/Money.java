@@ -1,17 +1,18 @@
 package com.lari.razorpaybackend.common.entity;
 
 import jakarta.persistence.Embeddable;
+import lombok.*;
 
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Money {
 
     private int amountUnits;
     private String currency;
-
-    public Money(int amountUnits, String currency) {
-        this.amountUnits = amountUnits;
-        this.currency = currency;
-    }
 
     public static Money of(int amountUnits, String currency) {
         return new Money(amountUnits, currency);

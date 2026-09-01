@@ -21,7 +21,9 @@ public enum ErrorCode {
         NOT_FOUND(
                 "{0}_NOT_FOUND",
                 "{0} not found with {1}: {2}"
-        );
+        ), DUPLICATE_ORDER_RECEIPT(
+                "DUPLICATE_ORDER_RECEIPT",
+                "Order with receipt already exists for merchant");
 
         private final String code;
         private final String description;
