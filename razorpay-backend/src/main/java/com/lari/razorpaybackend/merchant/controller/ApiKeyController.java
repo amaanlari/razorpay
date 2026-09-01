@@ -1,13 +1,12 @@
 package com.lari.razorpaybackend.merchant.controller;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.lari.razorpaybackend.merchant.dto.ApiKeyResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lari.razorpaybackend.merchant.dto.CreateApiKeyRequest;
 import com.lari.razorpaybackend.merchant.service.ApiKeyService;
@@ -22,11 +21,28 @@ public class ApiKeyController {
 
     private final ApiKeyService apiKeyService;
 
+    @PostMapping
     public ResponseEntity<ApiKeyCreateResponse> create(
         @PathVariable UUID merchantId,
         @Valid @RequestBody CreateApiKeyRequest request) {
-        
-            return ResponseEntity.status(HttpStatus.CREATED)
-            .body(apiKeyService.create(merchantId, request));
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(apiKeyService.create(merchantId, request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ApiKeyResponse>> list(@PathVariable UUID merchantId) {
+        return ResponseEntity.ok(apiKeyService.listByMerchant(merchantId));
+    }
+
+    @DeleteMapping("/{keyId}")
+    public ResponseEntity<Void> revoke(@PathVariable UUID merchantId, @PathVariable UUID keyId) {
+        apiKeyService.revoke(merchantId, keyId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{keyId}")
+    public ResponseEntity<ApiKeyCreateResponse> rotateKey(@PathVariable UUID merchantId, @PathVariable UUID keyId) {
+        return ResponseEntity.ok(apiKeyService.rotateKey(merchantId, keyId));
     }
 }
