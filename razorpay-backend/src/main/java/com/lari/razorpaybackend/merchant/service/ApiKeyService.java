@@ -3,7 +3,7 @@ package com.lari.razorpaybackend.merchant.service;
 import java.util.List;
 import java.util.UUID;
 
-import com.lari.razorpaybackend.merchant.controller.ApiKeyCreateResponse;
+import com.lari.razorpaybackend.merchant.dto.ApiKeyCreateResponse;
 import com.lari.razorpaybackend.merchant.dto.ApiKeyResponse;
 import com.lari.razorpaybackend.merchant.dto.CreateApiKeyRequest;
 

@@ -1,6 +1,7 @@
 package com.lari.razorpaybackend.merchant.service.impl;
 
 import com.lari.razorpaybackend.common.exception.DuplicateResourceException;
+import com.lari.razorpaybackend.merchant.mapper.MerchantMapper;
 import com.lari.razorpaybackend.merchant.repository.MerchantRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final MerchantRepository merchantRepository;
     private final AppUserRepository appUserRepository;
+    private final MerchantMapper merchantMapper;
 
     @Override
     @Transactional
@@ -33,14 +35,8 @@ public class AuthServiceImpl implements AuthService {
              throw new DuplicateResourceException(ErrorCode.DUPLICATE_MERCHANT_EMAIL);
         }
 
-        Merchant merchant = Merchant.builder()
-                .businessName(request.businessName())
-                .businessType(request.businessType())
-                .name(request.name())
-                .email(request.email())
-                .status(MerchantStatus.PENDING_KYC)
-                .build();
-
+        Merchant merchant = merchantMapper.toEntityFromMerchantSignupRequest(request);
+        merchant.setStatus(MerchantStatus.PENDING_KYC);
         merchant = merchantRepository.save(merchant);
 
         AppUser appUser = AppUser.builder()
@@ -52,14 +48,7 @@ public class AuthServiceImpl implements AuthService {
         
         appUserRepository.save(appUser);
  
-        return new MerchantResponse(
-            merchant.getId(),
-            merchant.getName(),
-            merchant.getEmail(),
-            merchant.getBusinessName(),
-            merchant.getBusinessType(),
-            merchant.getStatus()
-        );
+        return merchantMapper.toResponse(merchant);
     }
 
 }

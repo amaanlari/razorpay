@@ -1,4 +1,4 @@
-package com.lari.razorpaybackend.merchant.controller;
+package com.lari.razorpaybackend.merchant.dto;
 
 import java.util.UUID;
 

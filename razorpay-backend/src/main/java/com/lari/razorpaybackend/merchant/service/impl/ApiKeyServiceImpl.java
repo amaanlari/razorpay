@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.UUID;
 
 import com.lari.razorpaybackend.merchant.dto.ApiKeyResponse;
+import com.lari.razorpaybackend.merchant.mapper.ApiKeyMapper;
 import org.springframework.stereotype.Service;
 
 import com.lari.razorpaybackend.common.constant.ResourceName;
 import com.lari.razorpaybackend.common.exception.ResourceNotFoundException;
 import com.lari.razorpaybackend.common.exception.handler.ErrorCode;
 import com.lari.razorpaybackend.common.util.RandomizerUtil;
-import com.lari.razorpaybackend.merchant.controller.ApiKeyCreateResponse;
+import com.lari.razorpaybackend.merchant.dto.ApiKeyCreateResponse;
 import com.lari.razorpaybackend.merchant.dto.CreateApiKeyRequest;
 import com.lari.razorpaybackend.merchant.entity.ApiKey;
 import com.lari.razorpaybackend.merchant.entity.Merchant;
@@ -31,6 +32,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
+    private final ApiKeyMapper apiKeyMapper;
 
     @Override
     @Transactional
@@ -61,14 +63,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public List<ApiKeyResponse> listByMerchant(UUID merchantId) {
-        return apiKeyRepository.findByMerchantId(merchantId).stream().map(apiKey -> new ApiKeyResponse(
-                apiKey.getId(),
-                apiKey.getKeyId(),
-                apiKey.getEnvironment(),
-                apiKey.isEnabled(),
-                apiKey.getLastUsedAt(),
-                null
-        )).toList();
+        return apiKeyMapper.toResponseList(apiKeyRepository.findByMerchantId(merchantId));
     }
 
     @Override
