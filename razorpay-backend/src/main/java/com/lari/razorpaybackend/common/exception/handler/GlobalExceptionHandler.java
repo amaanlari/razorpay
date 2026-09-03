@@ -1,5 +1,6 @@
 package com.lari.razorpaybackend.common.exception.handler;
 
+import com.lari.razorpaybackend.common.exception.BusinessRuleViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,23 @@ public class GlobalExceptionHandler {
     
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.of(
             ex.getCode(),
+            ex.getLocalizedMessage()
+        ));
+    }
+
+    @ExceptionHandler(BusinessRuleViolationException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessRuleViolation(BusinessRuleViolationException ex) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.of(
+            ex.getErrorCode().getCode(),
+            ex.getLocalizedMessage()
+        ));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorResponse.of(
+            "INTERNAL_SERVER_ERROR",
             ex.getLocalizedMessage()
         ));
     }
