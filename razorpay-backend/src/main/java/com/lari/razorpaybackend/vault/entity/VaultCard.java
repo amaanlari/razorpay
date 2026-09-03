@@ -3,6 +3,7 @@ package com.lari.razorpaybackend.vault.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.lari.razorpaybackend.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "vault_card")
-public class VaultCard {
+public class VaultCard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

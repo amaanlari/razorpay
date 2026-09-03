@@ -3,6 +3,7 @@ package com.lari.razorpaybackend.operations.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.lari.razorpaybackend.common.entity.BaseEntity;
 import com.lari.razorpaybackend.common.entity.Money;
 import com.lari.razorpaybackend.common.enums.SettlementStatus;
 
@@ -20,7 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "settlement")
-public class Settlement {
+public class Settlement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

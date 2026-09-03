@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import com.lari.razorpaybackend.common.entity.BaseEntity;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -25,7 +27,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "refund")
-public class Refund {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Refund extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,6 +50,7 @@ public class Refund {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private RefundStatus status = RefundStatus.PENDING;
 
     @Column(length = 100)
