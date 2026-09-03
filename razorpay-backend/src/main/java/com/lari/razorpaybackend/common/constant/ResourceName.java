@@ -6,6 +6,7 @@ public final class ResourceName {
     public static final String USER = "User";
     public static final String PAYMENT = "Payment";
     public static final String API_KEY = "API Key";
+    public static final String ORDER = "Order";
 
     private ResourceName() {}
 }
