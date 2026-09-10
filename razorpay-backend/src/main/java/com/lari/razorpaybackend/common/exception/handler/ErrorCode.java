@@ -26,7 +26,10 @@ public enum ErrorCode {
                 "Order with receipt already exists for merchant"),
         CANNOT_CANCEL_ORDER(
                 "ORDER_CANNOT_CANCEL",
-                "Cannot cancel order with status: {0}");
+                "Cannot cancel order with status: {0}"),
+        ORDER_NOT_PAYABLE(
+                "ORDER_NOT_PAYABLE",
+                "Order cannot accept payment in status: {0}." );
 
         private final String code;
         private final String description;
